@@ -226,9 +226,12 @@ class ChatContainer extends React.Component {
 				status: "AVAILABLE"
 			}));
 		}.bind(this));
-		this.socket.onclose = function() {
-			this.handleEndButtonClick(null);
-		}.bind(this);
+		window.addEventListener("blur", function() {
+			var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+			if (isMobile) {
+			  this.handleEndButtonClick(null);
+			}
+		}.bind(this));
 		window.addEventListener("beforeunload", function(e) {
 			this.handleEndButtonClick(null);
 		}.bind(this));
