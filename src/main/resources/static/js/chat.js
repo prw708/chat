@@ -48,7 +48,7 @@ class ChatStatus extends React.Component {
 	render() {
 		if (!this.props.active) {
 			return React.createElement("small", { 
-				className: "text-muted mx-4 mx-sm-0 my-sm-2 mx-md-4 d-sm-block d-md-inline", 
+				className: "text-muted mx-0 my-2 mx-md-4 d-block d-md-inline", 
 			}, "The conversation has ended.");
 		}
 		switch (this.props.chatWithStatus) {
@@ -66,7 +66,7 @@ class ChatStatus extends React.Component {
 				this.statusText = this.props.chatWith + " is disconnected.";
 		}
 		return React.createElement("small", { 
-			className: "text-muted mx-4 mx-sm-0 my-sm-2 mx-md-4 d-sm-block d-md-inline", 
+			className: "text-muted mx-0 my-2 mx-md-4 d-block d-md-inline", 
 		}, this.statusText);
 	}
 }
@@ -226,6 +226,9 @@ class ChatContainer extends React.Component {
 				status: "AVAILABLE"
 			}));
 		}.bind(this));
+		this.socket.onclose = function() {
+			this.handleEndButtonClick(null);
+		}.bind(this);
 		window.addEventListener("beforeunload", function(e) {
 			this.handleEndButtonClick(null);
 		}.bind(this));
