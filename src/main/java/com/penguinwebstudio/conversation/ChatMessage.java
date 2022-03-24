@@ -27,7 +27,7 @@ public class ChatMessage {
 	@Column(name="postedOn")
 	private Date postedOn;
 	
-	@Column(name="message")
+	@Column(name="message", length=10000)
 	private String message;
 	
 	@Column(name="cpu")
