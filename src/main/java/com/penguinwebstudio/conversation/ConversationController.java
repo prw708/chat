@@ -154,22 +154,51 @@ public class ConversationController {
 	
 	@MessageMapping("/{chatRoomId}/message")
 	public void sendReply(Message message, @Pattern(regexp="^[0-9]+$") @DestinationVariable String chatRoomId) throws Exception {
-		ChatMessage newMessage = new ChatMessage(
-				message.getChatRoom(), 
-				message.getUsername(),
-				message.getChatWith(),
-				new Date(),
-				message.getMessage(),
-				message.getCpu()
-		);
-		conversationService.addChatMessage(newMessage);
 		List<ChatMessage> conversation = conversationService.getAllChatRoomMessages(message.getChatRoom());
 		if (message.getCpu() && message.getMessage().equals("The conversation has ended.")) {
-			deleteConversation(new DoneMessage(message.getChatRoom().toString(), message.getUsername(), message.getChatWith()));
+			conversationService.deleteChatRoomConversation(message.getChatRoom());
+		} else {
+			ChatMessage newMessage = new ChatMessage(
+					message.getChatRoom(), 
+					message.getUsername(),
+					message.getChatWith(),
+					message.getPostedOn(),
+					message.getMessage(),
+					message.getCpu()
+			);
+			conversationService.addChatMessage(newMessage);
+		}
+		final int MESSAGE_LENGTH = 1000;
+		if (message.getMessage().length() > MESSAGE_LENGTH) {
+			for (int i = 0; i < message.getMessage().length(); i = i + MESSAGE_LENGTH) {
+				int end = i + MESSAGE_LENGTH;
+				if (end > message.getMessage().length()) {
+					end = message.getMessage().length();
+				}
+				ChatMessage newMessage = new ChatMessage(
+						message.getChatRoom(), 
+						message.getUsername(), 
+						message.getChatWith(), 
+						message.getPostedOn(), 
+						message.getMessage().substring(i, end), 
+						message.getCpu()
+				);
+				conversation.add(newMessage);
+			}
+		} else {
+			ChatMessage newMessage = new ChatMessage(
+					message.getChatRoom(), 
+					message.getUsername(),
+					message.getChatWith(),
+					message.getPostedOn(),
+					message.getMessage(),
+					message.getCpu()
+			);
+			conversation.add(newMessage);
 		}
 		this.simpMessagingTemplate.convertAndSend("/receive/" + chatRoomId + "/message", conversation);
 	}
-		
+	
 	@MessageMapping("/done")
 	@SendTo("/receive/done")
 	public DoneMessage deleteConversation(DoneMessage message) {

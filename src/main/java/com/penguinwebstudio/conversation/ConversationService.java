@@ -142,7 +142,7 @@ public class ConversationService {
 	
 	public boolean deleteChatRoomConversation(Long chatRoomId) {
 		try {
-			List<ChatMessage> conversation = chatMessageRepository.findByChatRoomOrderByPostedOnAsc(chatRoomId);
+			List<ChatMessage> conversation = chatMessageRepository.findByChatRoomOrderByIdAsc(chatRoomId);
 			for (ChatMessage c : conversation) {
 				chatMessageRepository.deleteById(c.getId());
 			}
@@ -157,7 +157,7 @@ public class ConversationService {
 		try {
 			ChatRoom chatRoom = chatRoomRepository.findByUser1(username);
 			if (chatRoom != null) {
-				List<ChatMessage> conversation = chatMessageRepository.findByChatRoomOrderByPostedOnAsc(chatRoom.getId());
+				List<ChatMessage> conversation = chatMessageRepository.findByChatRoomOrderByIdAsc(chatRoom.getId());
 				for (ChatMessage c : conversation) {
 					chatMessageRepository.deleteById(c.getId());
 				}
@@ -166,7 +166,7 @@ public class ConversationService {
 			List<ChatRoom> chatRooms = chatRoomRepository.findByUser2(username);
 			if (chatRooms != null && chatRooms.size() > 0) {
 				for (ChatRoom c : chatRooms) {
-					List<ChatMessage> conversation = chatMessageRepository.findByChatRoomOrderByPostedOnAsc(c.getId());
+					List<ChatMessage> conversation = chatMessageRepository.findByChatRoomOrderByIdAsc(c.getId());
 					for (ChatMessage m : conversation) {
 						chatMessageRepository.deleteById(m.getId());
 					}
@@ -180,11 +180,30 @@ public class ConversationService {
 	}
 	
 	public void addChatMessage(ChatMessage message) {
-		chatMessageRepository.save(message);
+		final int MESSAGE_LENGTH = 1000;
+		if (message.getMessage().length() > MESSAGE_LENGTH) {
+			for (int i = 0; i < message.getMessage().length(); i = i + MESSAGE_LENGTH) {
+				int end = i + MESSAGE_LENGTH;
+				if (end > message.getMessage().length()) {
+					end = message.getMessage().length();
+				}
+				ChatMessage newMessage = new ChatMessage(
+						message.getChatRoom(), 
+						message.getUsername(), 
+						message.getChatWith(), 
+						message.getPostedOn(), 
+						message.getMessage().substring(i, end), 
+						message.getCpu()
+				);
+				chatMessageRepository.save(newMessage);
+			}
+		} else {
+			chatMessageRepository.save(message);
+		}
 	}
 	
 	public List<ChatMessage> getAllChatRoomMessages(Long chatRoom) {
-		return chatMessageRepository.findByChatRoomOrderByPostedOnAsc(chatRoom);
+		return chatMessageRepository.findByChatRoomOrderByIdAsc(chatRoom);
 	}
 	
 }

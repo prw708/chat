@@ -221,10 +221,6 @@ class ChatContainer extends React.Component {
 					});
 				}
 			}.bind(this));
-			this.stompClient.send("/send/" + this.chatRoom + "status", {}, JSON.stringify({
-				username: this.loggedInAs,
-				status: "AVAILABLE"
-			}));
 		}.bind(this));
 		window.addEventListener("blur", function() {
 			var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);

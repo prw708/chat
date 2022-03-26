@@ -11,6 +11,8 @@ public interface ChatMessageRepository extends CrudRepository<ChatMessage, Long>
 	
 	public List<ChatMessage> findByChatRoomOrderByPostedOnAsc(Long chatRoom);
 	
+	public List<ChatMessage> findByChatRoomOrderByIdAsc(Long chatRoom);
+	
 	public void deleteById(Long id);
 	
 	public long count();

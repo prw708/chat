@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 @Entity
 public class ChatMessage {
@@ -27,7 +28,8 @@ public class ChatMessage {
 	@Column(name="postedOn")
 	private Date postedOn;
 	
-	@Column(name="message", length=10000)
+	@Size(max=1000)
+	@Column(name="message", length=1000)
 	private String message;
 	
 	@Column(name="cpu")
