@@ -117,11 +117,9 @@ class Notification extends React.Component {
 	componentDidUpdate() {
 		this.toastElements = [].slice.call(document.querySelectorAll(".toast"));
 		this.toastList = this.toastElements.map(function (element) {
-			//return new bootstrap.Toast(element, { animation: false, autohide: false }).show();
 			return new bootstrap.Toast(element, { animation: false, autohide: false });
 		});
 		this.toastList.forEach(function(toast) {
-			//console.log(toast);
 			toast.show();
 		});
 	}
