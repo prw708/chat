@@ -46,9 +46,9 @@ import com.penguinwebstudio.utils.RecaptchaResponse;
 @Controller
 public class ConversationController {
 
-	@Value("${google.recaptcha.key.testing.site}")
+	@Value("${google.recaptcha.key.production.site}")
 	private String recaptchaSiteKey;
-	@Value("${google.recaptcha.key.testing.secret}")
+	@Value("${google.recaptcha.key.production.secret}")
 	private String recaptchaSecretKey;
 	
 	private ConversationService conversationService;
