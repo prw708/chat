@@ -23,7 +23,7 @@ import com.penguinwebstudio.utils.RecaptchaResponse;
 
 public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
-	@Value("${google.recaptcha.key.production.secret}")
+	@Value("${google.recaptcha.key.testing.secret}")
 	private String recaptchaSecretKey;
 	
 	@Autowired

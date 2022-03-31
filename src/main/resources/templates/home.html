@@ -12,7 +12,6 @@
 
 <script type="text/javascript" src="/webjars/sockjs-client/sockjs.min.js"></script>
 <script type="text/javascript" src="/webjars/stomp-websocket/stomp.min.js"></script>
-<script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="/js/utils.js"></script>
 
 </head>
@@ -26,7 +25,7 @@
 	        		<div class="row">
 	        			<div class="col-sm-9 p-2 d-flex overflow-hidden text-nowrap">
 	        				<div class="pe-2">
-	        					<a class="navbar-toggler border-0" href="https://penguinwebstudio.herokuapp.com/">
+	        					<a class="navbar-toggler border-0 text-decoration-none" href="https://penguinwebstudio.herokuapp.com/">
 			                		<span class="navbar-arrow-icon"></span>
 			                	</a>
 	        				</div>
@@ -93,7 +92,7 @@
 					<span class="fs-2">Logged In Users</span>
 	    		</div>
 	    		<div class="row g-0" id="usersContainer" th:attr="data-loggedInAs=${loggedInAs}"></div>
-				<script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+	    		<script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
 				<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
 				<script type="text/javascript" src="/js/users.js"></script>
 			</div>
